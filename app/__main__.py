@@ -8,20 +8,25 @@ from flask import request
 import mysql.connector as mysql
 import datetime
 
+# Путь к модели YOLO и доступ к камере
 MODEL_PATH = 'yolo_actual2.pt'
 CAMERA_URI = 'rtsp://localhost:8554/cam1'
 
+# Интерфейсы для журнала и трекинга объектов
 tracks_interface: dict
 state_interface: str
 tracks: dict
 journal_interface: list = []
 
+# Перевод текущей даты и текущего времени в строку
 def get_date_timef():
     return datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
+# Преобразование множества идентификаторов в строку
 def to_string(s: set, d: dict):
     return ", ".join(f"{d[id]} (id={id})" for id in s)
 
+# Поиск ближайшего трека к указанному объекту
 def get_closest(rect, po):
     p = po[0]
     mnx = min(p[0], p[2])
@@ -45,7 +50,10 @@ def get_closest(rect, po):
             min_dist = d
     return track_n
 
+# Объявление карты объектов
 map_= {}
+
+# Запуск модели и вывод потока
 def ai_bg():
     global map_
     global tracks_interface
@@ -108,7 +116,7 @@ def ai_bg():
             journal_interface.append(f"{date_time}: {s} {state_interface}\n")
 
 
-
+# Инициализация Flask приложения и базы данных MySQL
 app = Flask('helpdisp')
 db = mysql.connect(port=32000, user="root", password="root", database="rzd")
 
@@ -126,7 +134,7 @@ def new_tracks():
         cursor.executemany('INSERT INTO tracks (id, topx, topy, botx, boty) VALUES (%s, %s, %s, %s, %s)', [[i, *tracks[i]] for i in tracks])
         db.commit()
 
-
+# Блок запуска приложения
 if __name__ == '__main__':
     with db.cursor() as cursor:
         cursor.execute("SELECT id, topx, topy, botx, boty FROM tracks")

@@ -64,12 +64,12 @@ class FreshestFrame(threading.Thread):
 				self.callback(img)
 
 	def read(self, wait=True, seqnumber=None, timeout=None):
-		```
+		"""
 		Без аргументов (wait=True) всегда блокируется на новом кадре
 		wait=False возвращает текущий кадр
 		seqnumber блокирует до появления указанного кадра (или не блокируется вообще)
 		timeout может вернуть предыдущий кадр; (0, None) если кадра ещё нет
-		```
+		"""
 
 		with self.cond:
 			if wait:

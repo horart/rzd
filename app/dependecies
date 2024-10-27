@@ -1,1 +1,2 @@
 libcairo2-dev
+sudo apt install gir1.2-gst-rtsp-server-1.0 gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly libgirepository1.0-dev libcairo2-dev -y

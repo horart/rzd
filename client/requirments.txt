@@ -1,2 +1,6 @@
 opencv-python
 pillow
+ultralytics
+opencv-gst-rtsp-server
+pygobject
+torch

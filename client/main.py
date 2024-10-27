@@ -16,7 +16,7 @@ LEN_BLOCK = 8
 cnt = 0
 map_ = dict()
 
-# возвращает a - b (то что есть в a, но нет в b)
+# Возвращение a - b (то что есть в a, но нет в b)
 def sub(a: dict, b: dict):
     ans = dict()
     for key in a:
@@ -28,14 +28,14 @@ def sub(a: dict, b: dict):
             ans[key] = b[key]
     return ans
 
-# Функция записи событий в файл и обновления текстового виджета
+# Запись событий в файл и обновление журанала
 def write(s: str, key='a'):
     with open(FILE_NAME, key) as file:
         file.write(s + '\n')
     log_text.insert(tk.END, s + '\n')
     log_text.see(tk.END)
 
-# Вспомогательные функции для обработки и форматирования данных
+# Функции для обработки и форматирования данных
 def fillDict(base: dict, new: dict):
     for key in new:
         base[key] = max(base.get(key, 0), new[key])
@@ -46,7 +46,7 @@ def to_string(s: set, d: dict):
 def get_date_timef():
     return datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 
-# Функции для обучения и предсказания
+# Функции для обучения и трекинга
 def train_model(data_path, model_path, epochs):
     model = YOLO(model_path)
     model.train(data=data_path, epochs=epochs)
@@ -144,7 +144,7 @@ LABEL_BG = "#4C4A44"
 LABEL_FG = "#FFFFFF"
 FONT = ("Arial", 12)
 
-# Настройка стилей ttk для элегантных кнопок
+# Настройка стилей
 style = ttk.Style()
 style.configure("ElegantButton.TButton", font=FONT, background=BUTTON_BG, padding=6, relief="flat")
 style.map("ElegantButton.TButton", background=[("active", BUTTON_ACTIVE_BG)])

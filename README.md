@@ -18,10 +18,12 @@ docker compose up
 python3 __main__.py
 
 ## Запуск клиента
+``` bash
 cd client
 pip3 install -r requirments.txt
 python3 create_tracks.py
 python3 client.py
+```
 
 Серверная часть включает в себя:
 - базу данных MySQL (контейнер db)

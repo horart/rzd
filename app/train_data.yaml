@@ -1,5 +1,13 @@
-train: images/
-val: images/
+train: ../train/images
+val: ../valid/images
+test: ../test/images
 
-nc: 3
-names: ['Train', 'Cariage', 'Cranes']
+nc: 4
+names: ['bike', 'car', 'person', 'track']
+
+roboflow:
+  workspace: homeschool
+  project: track-k4kme
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/homeschool/track-k4kme/dataset/1

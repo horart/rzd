@@ -1,5 +1,5 @@
-import tkinter as tk 
-
+import tkinter as tk
+import tkinter.messagebox as tkm
 import cv2
 from PIL import Image
 from PIL import ImageTk
@@ -13,7 +13,7 @@ class MainWindow():
         self.height = self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         self.interval = 10 # Interval in ms to get the latest frame
         # Create canvas for image
-        self.canvas = tk.Canvas(self.window, width=600, height=400)
+        self.canvas = tk.Canvas(self.window, width=960, height=1080)
         self.canvas.grid(row=0, column=0)
         # Update image on canvas
         root.after(self.interval, self.update_image)
@@ -35,7 +35,7 @@ class MainWindow():
         # Get the latest frame and convert image format
         self.OGimage = cv2.cvtColor(self.cap.read()[1], cv2.COLOR_BGR2RGB) # to RGB
         self.OGimage = Image.fromarray(self.OGimage) # to PIL format
-        self.image = self.OGimage.resize((600, 400), Image.Resampling.LANCZOS)
+        self.image = self.OGimage.resize((960, 1080), Image.Resampling.LANCZOS)
         self.image = ImageTk.PhotoImage(self.image) # to ImageTk format
         # Update image
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.image)
@@ -52,8 +52,11 @@ class MainWindow():
         self.canvas.bind('<Button-1>', self.get_mouse_posn)
         self.canvas.bind('<B1-Motion>', self.update_sel_rect)
         #self.canvas.bind('<ButtonRelease-1>', self.mouse_up)
-    def on_closing(event):
-        requests.post()
+    def on_closing(self):
+        global root
+        if tkm.askyesno('Желаете сохранить?'):
+            requests.post('http://localhost:5000/new_tracks', json=self.select_rects)
+        root.destroy()
 
 if __name__ == "__main__":
     root = tk.Tk()

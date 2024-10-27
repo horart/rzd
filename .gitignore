@@ -1,3 +1,5 @@
-*avi
-*png
-*jpg
+*.avi
+*.png
+*.jpg
+*.pyc
+.vscode

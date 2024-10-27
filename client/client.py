@@ -5,6 +5,7 @@ from PIL import Image
 from PIL import ImageTk
 import requests
 
+# Запуск приложения с заготовленным разрешением окна
 class MainWindow():
     def __init__(self, window, cap):
         root.geometry('{}x{}'.format(1600, 1080))
@@ -13,10 +14,9 @@ class MainWindow():
         self.width = self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)
         self.height = self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         self.interval = 10 # Interval in ms to get the latest frame
-        # Create canvas for image
         self.canvas = tk.Canvas(self.window, width=960, height=1080)
         self.canvas.grid(row=0, column=0)
-        # Update image on canvas
+        # Обновляем кадр и журнал
         root.after(self.interval, self.update_image)
         tv = tk.StringVar()
         tv.set('Пути')
@@ -39,14 +39,12 @@ class MainWindow():
 
     
     def update_image(self):    
-        # Get the latest frame and convert image format
+        # Получаем последний кадр
         self.OGimage = cv2.cvtColor(self.cap.read()[1], cv2.COLOR_BGR2RGB) # to RGB
         self.OGimage = Image.fromarray(self.OGimage) # to PIL format
         self.image = self.OGimage.resize((960, 1080), Image.Resampling.LANCZOS)
         self.image = ImageTk.PhotoImage(self.image) # to ImageTk format
-        # Update image
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.image)
-        # Repeat every 'interval' ms
         js = requests.get('http://localhost:5000/get_trains').json()
         tracks = js['tracks']
         state = js['state']
